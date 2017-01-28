@@ -1,0 +1,17 @@
+{
+    "name": "qfox/laravel-bem-demo-proxy",
+    "description": "Demo project to show how easy to use bem-components-dist with any PHP project",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Yaroshevich",
+            "email": "zxqfox@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
+    }
+}

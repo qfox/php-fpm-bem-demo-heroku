@@ -1,0 +1,17 @@
+{
+  "name": "laravel-bem-demo-proxy",
+  "version": "1.0.0",
+  "description": "BEMHTML render with bem-components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexey Yaroshevich <zxqfox@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bem-components-dist": "^4.0.0",
+    "http-proxy": "^1.16.2",
+    "http-proxy-mitm": "^0.1.2",
+    "morgan": "^1.7.0"
+  }
+}
