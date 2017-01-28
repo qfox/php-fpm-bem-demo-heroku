@@ -15,9 +15,10 @@ function bem($bemjson) {
 <body class="page page_theme_islands">
 <?=bem([
     'block' => 'button',
-    'mods' => [ 'theme' => 'islands', 'size' => 'xl' ],
+    'mods' => [ 'theme' => 'islands', 'size' => 'xl', 'custom' => 'modifier' ],
     'text' => 'Аз есмь кнопка!'
 ])?>
+<br/>
 <?=bem("
 ({
     block : 'dropdown',

@@ -10,6 +10,7 @@ const httpProxy = require('http-proxy');
 const httpProxyMitm = require('http-proxy-mitm');
 
 const templates = require('bem-components-dist/desktop/bem-components.bemhtml').BEMHTML;
+const templator = require('bem-xjst').bemhtml;
 
 // Create a proxy server with custom application logic
 const proxy = httpProxy.createProxyServer({
@@ -31,12 +32,20 @@ proxy.on('proxyRes', httpProxyMitm([{
 }, {
     condition: (pRes) => (pRes.statusCode === 200 && pRes.headers['x-content-type'] === 'application/x-bemjson-inline'),
     bodyTransform: function(body) {
+        const additionalTemplates = [];
+        if (body.indexOf(/\u0008/)) {
+            body = body.split(/\u0008/g).map(function(v, i) {
+                return !(i % 2) ? v : (additionalTemplates.push(v), false);
+            }).filter(Boolean).join('');
+        }
+        const tmpls = !additionalTemplates.length ? templates : templator.compile(additionalTemplates.join(''));
+
         var res = body.split(/\u0007/g);
         for (var i = 0; i < res.length; i += 2) {
             if (!res[i + 1]) continue;
             try {
                 var bemjson = res[i + 1][0] === '{' ? JSON.parse(res[i + 1]) : _eval(res[i + 1]);
-                res[i + 1] = templates.apply(bemjson);
+                res[i + 1] = tmpls.apply(bemjson);
             } catch (e) {
                 console.error(e.stack);
                 res[i + 1] = '<pre>' + e.stack + '</pre>';

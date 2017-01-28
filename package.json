@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "bem-components-dist": "^4.0.0",
+    "bem-xjst": "^7.7.0",
     "finalhandler": "^0.5.1",
     "http-proxy": "^1.16.2",
     "http-proxy-mitm": "^0.1.2",
