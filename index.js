@@ -10,7 +10,7 @@ const templates = require('bem-components-dist/desktop/bem-components.bemhtml').
 // Create a proxy server with custom application logic
 const proxy = httpProxy.createProxyServer({
     headers: { 'X-Proxied-By': 'bem-proxy' },
-    target: 'http://127.0.0.1:55276'
+    target: 'http://localhost:55276'
 });
 
 // Apply templates on `x-content-type: x-bemjson`
