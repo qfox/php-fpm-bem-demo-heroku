@@ -2,7 +2,7 @@
 isset($_GET['raw']) || header('x-content-type: application/x-bemjson-inline');
 const BEM_DELIM = "\x07"; // '\u0007'
 function bem($bemjson) {
-    return BEM_DELIM . json_encode($bemjson) . BEM_DELIM;
+    return BEM_DELIM . (is_string($bemjson) ? trim($bemjson) : json_encode($bemjson)) . BEM_DELIM;
 }
 ?>
 <!DOCTYPE html>
@@ -18,6 +18,18 @@ function bem($bemjson) {
     'mods' => [ 'theme' => 'islands', 'size' => 'xl' ],
     'text' => 'Аз есмь кнопка!'
 ])?>
+<?=bem("
+({
+    block : 'dropdown',
+    mods : { switcher : 'button', theme : 'islands', size : 'm' },
+    switcher : {
+        block : 'button',
+        mods : { togglable : 'check' },
+        text : 'Узнать об акциях на сайте'
+    },
+    popup : 'Скидка 30% на новую коллекцию. Для активации акции нужно ввести промокод.'
+})
+")?>
 <script src="/static/desktop/bem-components.js+bemhtml.js"></script>
 </body>
 </html>

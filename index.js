@@ -3,6 +3,7 @@ const spawn = require('child_process').spawn;
 
 const PHP_PORT = Number(process.env.PORT) + 1;
 
+const _eval = require('node-eval');
 const morgan = require('morgan');
 const finalhandler = require('finalhandler');
 const httpProxy = require('http-proxy');
@@ -34,8 +35,8 @@ proxy.on('proxyRes', httpProxyMitm([{
         for (var i = 0; i < res.length; i += 2) {
             if (!res[i + 1]) continue;
             try {
-                console.log(res[i + 1], JSON.parse(res[i + 1] || '""'));
-                res[i + 1] = templates.apply(JSON.parse(res[i + 1] || '""'));
+                var bemjson = res[i + 1][0] === '{' ? JSON.parse(res[i + 1]) : _eval(res[i + 1]);
+                res[i + 1] = templates.apply(bemjson);
             } catch (e) {
                 console.error(e.stack);
                 res[i + 1] = '<pre>' + e.stack + '</pre>';
