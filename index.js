@@ -17,7 +17,7 @@ const proxy = httpProxy.createProxyServer({
 });
 
 // Apply templates on `x-content-type: x-bemjson`
-proxy.on('proxyRes', httpProxyMitm({
+proxy.on('proxyRes', httpProxyMitm([{
     condition: (pRes) => (pRes.statusCode === 200 && pRes.headers['x-content-type'] === 'application/x-bemjson'),
     bodyTransform: function(body) {
         try {
@@ -27,7 +27,23 @@ proxy.on('proxyRes', httpProxyMitm({
             return e.stack + '<br>' + body;
         }
     }
-}));
+}, {
+    condition: (pRes) => (pRes.statusCode === 200 && pRes.headers['x-content-type'] === 'application/x-bemjson-inline'),
+    bodyTransform: function(body) {
+        var res = body.split(/\u0007/g);
+        for (var i = 0; i < res.length; i += 2) {
+            if (!res[i + 1]) continue;
+            try {
+                console.log(res[i + 1], JSON.parse(res[i + 1] || '""'));
+                res[i + 1] = templates.apply(JSON.parse(res[i + 1] || '""'));
+            } catch (e) {
+                console.error(e.stack);
+                res[i + 1] = '<pre>' + e.stack + '</pre>';
+            }
+        }
+        return res.join('');
+    }
+}]));
 
 const logger = morgan('combined');
 

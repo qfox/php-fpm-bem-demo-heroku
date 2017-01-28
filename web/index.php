@@ -1,5 +1,5 @@
 <?php
-header('x-content-type: application/x-bemjson');
+isset($_GET['raw']) || header('x-content-type: application/x-bemjson');
 
 $header = <<<HEADER
 <!DOCTYPE html>
