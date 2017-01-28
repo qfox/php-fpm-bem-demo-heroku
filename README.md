@@ -28,7 +28,7 @@ heroku git:remote --app my-awesome-php-app # this will add remote in you git
 ```
 
 And then just push to redeploy:
-```
+```sh
 git push heroku master
 ```
 
@@ -41,9 +41,8 @@ git push heroku master
   heroku buildpacks:add heroku/php
   ```
 
-- Heroku starts only 1 web app by default
-  To enable php block you have to enable it manually via web interface
-  (not sure if it possible to do via CLI).
+- Heroku starts just 1 web app and provide only 1 port.
+  Because of that `nginx` with `php-fpm` starting inside `nodejs` app.
 
 ## License
 
